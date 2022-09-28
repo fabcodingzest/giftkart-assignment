@@ -60,6 +60,7 @@
   background: #fff;
   border-radius: 0.4rem;
   overflow: hidden;
+  z-index: 5000;
   box-shadow: 1px 1px 0.4rem rgb(231, 231, 231);
 }
 .search__result {
