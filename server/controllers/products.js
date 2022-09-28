@@ -14,28 +14,27 @@ export const getProducts = async (req, res) => {
 export const searchProducts = async (req, res) => {
   const { query } = req.params;
   try {
-    const products = await Product.find({
-      $or: [
-        {
-          brandName: {
-            $regex: query,
-            $options: 'i'
+    const products = await Product.aggregate([
+      {
+        $search: {
+          index: "autoComplete",
+          autocomplete: {
+            query: query,
+            path: "productName",
           },
         },
-        {
-          productName: {
-            $regex: query,
-            $options: 'i'
-          },
+      },
+      {
+        $limit: 5,
+      },
+      {
+        $project: {
+          _id: 1,
+          productName: 1,
+          listOfImages: 1,
         },
-        {
-          description: {
-            $regex: query,
-            $options: 'i'
-          },
-        },
-      ],
-    });
+      },
+    ]);
     // console.log(products);
 
     res.status(200).json(products);
