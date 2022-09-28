@@ -95,3 +95,128 @@
   max-width: 100%;
   width: 100%;
 }
+
+.carousel {
+  display: flex;
+  max-width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+}
+
+.carousel > div {
+  min-width: 100%;
+  /* width: 100%; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  /* transition: all 1s cubic-bezier(0.39, 0.39, 0.39, 1); */
+}
+
+.carousel-img img {
+  width: 100%;
+  height: 100%;
+}
+
+.arrow {
+  position: absolute;
+  top: 45%;
+  background: transparent;
+  border: none;
+  padding: 0 0.8rem;
+  color: #000;
+  cursor: pointer;
+}
+
+.arrow > svg {
+  width: 30px;
+}
+.product-list {
+  display: grid;
+  row-gap: 3rem;
+  grid-template-columns: repeat(auto-fill, 250px);
+  padding: 2rem;
+  justify-items: center;
+  justify-content: space-evenly;
+  margin: 0 auto;
+}
+
+.product__card {
+  max-width: 20rem;
+  background: #dee0ec;
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.product__card--carousel {
+  width: 200px;
+  height: 150px;
+}
+
+.product__card--text {
+  padding: 0.6rem 0;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.select {
+  position: relative;
+}
+
+.select-btn {
+  position: relative;
+  z-index: 10;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 0.4rem;
+}
+
+.select-box {
+  position: absolute;
+  margin-top: 0.2rem;
+  border-radius: 0.4rem;
+  width: 100%;
+  background: #fff;
+  box-shadow: 1px 1px 0.4rem rgb(188, 187, 187);
+  z-index: 20;
+}
+
+.select-box > button {
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 0.3rem;
+  text-align: left;
+  cursor: pointer;
+}
+.select-box > button:hover {
+  color: rgb(172, 172, 172);
+}
+.select-box > button:not(:last-child) {
+  border-bottom: 1px solid rgb(172, 172, 172);
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  cursor: default;
+}
+
+@media only screen and (max-width: 768px) {
+  .arrow {
+    padding: 0 0.4rem;
+  }
+  .arrow > svg {
+    width: 20px;
+  }
+}
