@@ -67,7 +67,7 @@ function Searchbar() {
                 <SearchItem
                   img={item.listOfImages[0]}
                   text={item.productName}
-                  key={item.id}
+                  key={item._id}
                 />
               ))
             ) : (
