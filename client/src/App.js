@@ -24,7 +24,7 @@ function App() {
   return (
     <div className="app">
       <Searchbar />
-      <Carousel slides={carouselImages} fullScreen />
+      <Carousel slides={carouselImages} fullScreen autoPlay />
       <ProductList data={products} />
     </div>
   );

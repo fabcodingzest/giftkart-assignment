@@ -1,7 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import Arrow from "./Arrow";
 
-function Carousel({ slides, width = "", height = "20rem", fullScreen }) {
+function Carousel({
+  slides,
+  width = "",
+  height = "20rem",
+  fullScreen,
+  autoPlay,
+}) {
   const firstSlide = slides[0];
   const secondSlide = slides[1];
   const lastSlide = slides[slides.length - 1];
@@ -21,9 +27,11 @@ function Carousel({ slides, width = "", height = "20rem", fullScreen }) {
     // newData.unshift(newData[slides.length - 1]);
 
     // setData(newData);
-    crInterval.current = setInterval(() => {
-      carouselHorizontalScroll();
-    }, 3000);
+    crInterval.current =
+      autoPlay &&
+      setInterval(() => {
+        carouselHorizontalScroll();
+      }, 3000);
 
     return () => {
       clearInterval(crInterval.current);
