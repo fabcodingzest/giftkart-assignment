@@ -76,13 +76,18 @@
 }
 
 .search__result:not(:first-child) {
-  border-top: 1px solid #000;
+  border-top: 1px solid gray;
+}
+
+.search__result > p {
+  font-size: 0.8rem;
 }
 
 .search__result--img {
   width: 2rem;
   height: 2rem;
   display: flex;
+  margin-right: 1rem;
 }
 
 .search__result--img img {

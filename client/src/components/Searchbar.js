@@ -28,6 +28,7 @@ function Searchbar() {
         setResults(json);
       })
       .catch((err) => {
+        console.error(err);
         alert("Something went wrong. Please try again later!");
       });
   };
