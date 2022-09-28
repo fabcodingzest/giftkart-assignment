@@ -10,7 +10,7 @@ function Carousel({ slides, width = "", height = "20rem", fullScreen }) {
   let crInterval = useRef(null);
 
   const carouselHorizontalScroll = () => {
-    if (currentIndex === data.length - 1) {
+    if (currentIndex === slides.length - 1) {
       return setCurrentIndex(0);
     } else {
       return setCurrentIndex(currentIndex + 1);
@@ -18,7 +18,7 @@ function Carousel({ slides, width = "", height = "20rem", fullScreen }) {
   };
 
   useEffect(() => {
-    // newData.unshift(newData[newData.length - 1]);
+    // newData.unshift(newData[slides.length - 1]);
 
     // setData(newData);
     crInterval.current = setInterval(() => {
@@ -54,7 +54,7 @@ function Carousel({ slides, width = "", height = "20rem", fullScreen }) {
           className="carousel-img"
           style={{
             transition: `${
-              currentIndex === data.length
+              currentIndex === slides.length
                 ? 0
                 : "all 1s cubic-bezier(0.39, 0.39, 0.39, 1)"
             }`,
