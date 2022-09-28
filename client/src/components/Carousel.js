@@ -21,23 +21,29 @@ function Carousel({ slides, width = "", height = "20rem", fullScreen }) {
     // newData.unshift(newData[newData.length - 1]);
 
     // setData(newData);
-    // crInterval.current = setInterval(() => {
-    //   carouselHorizontalScroll();
-    // }, 3000);
+    crInterval.current = setInterval(() => {
+      carouselHorizontalScroll();
+    }, 3000);
 
     return () => {
-      // clearInterval(crInterval.current);
+      clearInterval(crInterval.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex]);
 
   const prevSlide = () => {
     clearInterval(crInterval.current);
-    setCurrentIndex(currentIndex === slides.length - 1 ? 0 : currentIndex + 1);
+    if (currentIndex === 0) {
+      return setCurrentIndex(slides.length - 1);
+    }
+    setCurrentIndex(currentIndex - 1);
   };
   const nextSlide = () => {
     clearInterval(crInterval.current);
-    setCurrentIndex(currentIndex === 0 ? slides.length - 1 : currentIndex - 1);
+    if (currentIndex === slides.length - 1) {
+      return setCurrentIndex(0);
+    }
+    setCurrentIndex(currentIndex + 1);
   };
 
   return (
