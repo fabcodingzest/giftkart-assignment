@@ -20,7 +20,7 @@ function Carousel({
     direction: "",
   });
   let crInterval = useRef(null);
-  const { current, nums } = state;
+  const { direction, current, nums } = state;
 
   useEffect(() => {
     clearInterval(crInterval.current);
@@ -39,7 +39,6 @@ function Carousel({
 
   const handleSliderTranslateEnd = () => {
     console.log("handleSliderTranslateEnd");
-    const { direction } = state;
     switch (direction) {
       case DIRECTIOM_TYPE.next:
         vaildNextSlider();
