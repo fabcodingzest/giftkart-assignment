@@ -20,7 +20,7 @@ function Carousel({
     direction: "",
   });
   let crInterval = useRef(null);
-  const { direction, current, nums } = state;
+  const { direction, current, nums, needTransition } = state;
 
   useEffect(() => {
     clearInterval(crInterval.current);
@@ -35,7 +35,7 @@ function Carousel({
       window.removeEventListener("transitionend", handleSliderTranslateEnd);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.current]);
+  }, [current]);
 
   const handleSliderTranslateEnd = () => {
     switch (direction) {
@@ -106,21 +106,21 @@ function Carousel({
   };
 
   const transLateVal = () => {
-    return -(state.current * 100);
+    return -(current * 100);
   };
 
   return (
     <div className="carousel">
       <div
         className="carousel-container"
-        width={`${width * state.nums.length - 1}%`}
+        width={`${width * slides.length - 1}%`}
         style={{
           height,
           transform: `translateX(${transLateVal()}%)`,
-          transition: state.needTransition && "transform 0.3s ease-in-out",
+          transition: needTransition && "transform 0.3s ease-in-out",
         }}
         onTransitionEnd={handleSliderTranslateEnd}>
-        {state.nums.map((item, i) => (
+        {nums.map((item, i) => (
           <div key={i} className="carousel-img">
             <img
               style={
