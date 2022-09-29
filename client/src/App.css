@@ -3,7 +3,16 @@
   padding: 0.2rem;
 }
 
+.loader {
+  width: 100%;
+  height: 20vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .search {
+  position: relative;
   background: #373f68;
   padding: 2rem 0;
 }

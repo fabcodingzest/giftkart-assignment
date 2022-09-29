@@ -7,16 +7,21 @@ import { baseAPI, carouselImages } from "./utilities/constants";
 
 function App() {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getProducts = async () => {
+      setLoading(true);
       fetch(`${baseAPI}/products`)
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           setProducts(data);
+          setLoading(false);
         })
-        .catch((error) => alert(error.message));
+        .catch((error) => {
+          setLoading(false);
+          alert(error.message);
+        });
     };
     getProducts();
   }, []);
@@ -25,7 +30,11 @@ function App() {
     <div className="app">
       <Searchbar />
       <Carousel slides={carouselImages} fullScreen autoPlay={3} />
-      <ProductList data={products} />
+      {loading ? (
+        <div className="loader">Loading...</div>
+      ) : (
+        <ProductList data={products} />
+      )}
     </div>
   );
 }
