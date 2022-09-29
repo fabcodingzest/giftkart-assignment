@@ -62,7 +62,7 @@ function Searchbar() {
           }}
           autoComplete="off"
         />
-        <button id="search-btn" onClick={() => console.log("hello btn")}>
+        <button id="search-btn" onClick={() => alert("Hello! The search page is not there yet xD")}>
           <SearchIcon id="search-icon" />
         </button>
         {dropDownOpen && (
