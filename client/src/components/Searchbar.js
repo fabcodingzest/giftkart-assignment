@@ -5,14 +5,14 @@ import { baseAPI } from "../utilities/constants";
 
 const SearchItem = ({ img, text }) => {
   return (
-    <div className="search__result">
+    <button className="search__result">
       {img && (
         <div className="search__result--img">
           <img src={img} alt={text} />
         </div>
       )}
       <p>{text}</p>
-    </div>
+    </button>
   );
 };
 
@@ -54,10 +54,13 @@ function Searchbar() {
             setDropDownOpen(true);
             debouncedSearch();
           }}
-          onBlur={() => setDropDownOpen(false)}
+          // onBlur={() => setDropDownOpen(false)}
           autoComplete="off"
         />
-        <button id="search-btn" onClick={() => console.log("hello btn")}>
+        <button
+          id="search-btn"
+          onClick={() => console.log("hello btn")}
+          tabIndex="-1">
           <SearchIcon id="search-icon" />
         </button>
         {dropDownOpen && (
