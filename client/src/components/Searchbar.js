@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { debounce } from "../utilities/debounce";
 import { ReactComponent as SearchIcon } from "../assets/search.svg";
 import { baseAPI } from "../utilities/constants";

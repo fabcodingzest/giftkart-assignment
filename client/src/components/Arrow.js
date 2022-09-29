@@ -1,4 +1,3 @@
-import React from "react";
 import { ReactComponent as RightArrow } from "../assets/right-arrow.svg";
 import { ReactComponent as LeftArrow } from "../assets/left-arrow.svg";
 
