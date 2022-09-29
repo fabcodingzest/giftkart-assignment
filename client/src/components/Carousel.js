@@ -38,7 +38,6 @@ function Carousel({
   }, [state.current]);
 
   const handleSliderTranslateEnd = () => {
-    console.log("handleSliderTranslateEnd");
     switch (direction) {
       case DIRECTIOM_TYPE.next:
         vaildNextSlider();
