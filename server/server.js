@@ -18,6 +18,9 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use("/", (req, res) => {
+  res.json({ message: "It works" });
+});
 app.use("/products", productsRoute);
 
 mongoose
