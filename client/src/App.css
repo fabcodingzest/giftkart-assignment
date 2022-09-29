@@ -182,11 +182,6 @@ a:focus-visible {
   padding: 1rem;
 }
 
-.product__card--carousel {
-  width: 200px;
-  height: 150px;
-}
-
 .product__card--text {
   padding: 0.6rem 0;
   font-size: 0.8rem;
