@@ -18,7 +18,7 @@ const Dropdown = ({ list }) => {
         {active}
         {dropdownOpen ? <ArrowUp /> : <ArrowDown />}
       </button>
-      <button
+      <div
         onClick={() => setDropdownOpen(false)}
         className="overlay"
         style={{ display: dropdownOpen ? "block" : "none" }}
