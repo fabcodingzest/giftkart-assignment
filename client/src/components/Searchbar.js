@@ -37,30 +37,26 @@ function Searchbar() {
     if (value !== "") {
       fetchData(value);
     }
-    setDropDownOpen(false);
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedSearch = useCallback(debounce(handleSearch, 500), []);
+  const debouncedSearch = useCallback(debounce(handleSearch, 300), []);
 
   return (
     <div className="search">
+      <div
+        onClick={() => setDropDownOpen(false)}
+        className="overlay"
+        style={{ display: dropDownOpen ? "block" : "none" }}
+      />
       <div id="searchbox">
         <input
           id="search-input"
           type="text"
           onChange={debouncedSearch}
-          onFocus={(e) => {
-            setDropDownOpen(true);
-            debouncedSearch();
-          }}
-          // onBlur={() => setDropDownOpen(false)}
           autoComplete="off"
         />
-        <button
-          id="search-btn"
-          onClick={() => console.log("hello btn")}
-          tabIndex="-1">
+        <button id="search-btn" onClick={() => console.log("hello btn")}>
           <SearchIcon id="search-icon" />
         </button>
         {dropDownOpen && (
