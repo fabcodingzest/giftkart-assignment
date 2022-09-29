@@ -24,15 +24,23 @@ function Carousel({
 
   useEffect(() => {
     clearInterval(crInterval.current);
-    crInterval.current =
-      autoPlay &&
-      setInterval(() => {
-        handleNext();
-      }, autoPlay * 1000);
-
+    const playInterval = () => {
+      crInterval.current =
+        autoPlay &&
+        setInterval(() => {
+          handleNext();
+        }, autoPlay * 1000);
+    };
+    playInterval();
+    window.addEventListener("focus", playInterval);
+    window.addEventListener("blur", () => clearInterval(crInterval.current));
     return () => {
       clearInterval(crInterval.current);
       window.removeEventListener("transitionend", handleSliderTranslateEnd);
+      window.removeEventListener("focus", playInterval);
+      window.removeEventListener("blur", () =>
+        clearInterval(crInterval.current)
+      );
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [current]);
@@ -76,9 +84,10 @@ function Carousel({
   };
 
   const handleNext = () => {
-    const { current, nums } = state;
     if (nums.length > 1) {
+      console.log(current);
       let _current = current + 1;
+      console.log(_current);
       if (nums.length % 2 !== 0) {
         const middle = nums.length / 2 - 1;
         if (_current > nums.length - middle) return;
@@ -106,6 +115,7 @@ function Carousel({
   };
 
   const transLateVal = () => {
+    console.log(current);
     return -(current * 100);
   };
 
@@ -117,7 +127,7 @@ function Carousel({
         style={{
           height,
           transform: `translateX(${transLateVal()}%)`,
-          transition: needTransition && "transform 0.3s ease-in-out",
+          transition: needTransition && "transform 0.2s linear",
         }}
         onTransitionEnd={handleSliderTranslateEnd}>
         {nums.map((item, i) => (
