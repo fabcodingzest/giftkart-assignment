@@ -13,9 +13,10 @@ function Carousel({
   fullScreen,
   autoPlay,
 }) {
+  const slidesLength = slides.length;
   const [state, setState] = useState({
-    nums: slides,
-    current: slides.length > 1 ? 1 : 0,
+    nums: slidesLength === 2 ? [...slides, ...slides] : slides,
+    current: slidesLength > 1 ? 1 : 0,
     needTransition: true,
     direction: "",
   });
@@ -68,7 +69,7 @@ function Carousel({
   const vaildNextSlider = () => {
     let _current = current;
     _current -= 1;
-    const _nums = [...nums, ...nums.slice(0, 1)].slice(-slides.length);
+    const _nums = [...nums, ...nums.slice(0, 1)].slice(-nums.length);
     setState({
       ...state,
       needTransition: false,
@@ -82,7 +83,6 @@ function Carousel({
     if (_current < 1) {
       _current += 1;
       const _nums = [...nums.slice(-1), ...nums].slice(0, nums.length);
-      console.log(nums);
       setState({
         ...state,
         needTransition: false,
@@ -131,11 +131,11 @@ function Carousel({
       onMouseLeave={() => setAuto(true)}>
       <div
         className="carousel-container"
-        width={`${width * (slides.length - 1)}%`}
+        width={`${width * (nums.length - 1)}%`}
         style={{
           height,
           transform: `translateX(${transLateVal()}%)`,
-          transition: needTransition ? "transform 0.2s linear" : null,
+          transition: needTransition ? "transform 0.45s linear" : null,
         }}
         onTransitionEnd={handleSliderTranslateEnd}>
         {nums.map((item, i) => (
