@@ -15,27 +15,32 @@ function Carousel({
 }) {
   const [state, setState] = useState({
     nums: slides,
-    current: 0,
+    current: slides.length > 1 ? 1 : 0,
     needTransition: true,
     direction: "",
   });
+  const [auto, setAuto] = useState(true);
   let crInterval = useRef(null);
   const { direction, current, nums, needTransition } = state;
 
+  const playInterval = () => {
+    clearInterval(crInterval.current);
+    crInterval.current =
+      autoPlay &&
+      setInterval(() => {
+        handleNext();
+      }, autoPlay * 1000);
+  };
+
   useEffect(() => {
-    const playInterval = () => {
-      clearInterval(crInterval.current);
-      crInterval.current =
-        autoPlay &&
-        setInterval(() => {
-          handleNext();
-        }, autoPlay * 1000);
-    };
-    playInterval();
-    window.addEventListener("focus", playInterval);
-    window.addEventListener("visibilitychange", () =>
-      clearInterval(crInterval.current)
-    );
+    clearInterval(crInterval.current);
+    if (auto) {
+      playInterval();
+      window.addEventListener("focus", playInterval);
+      window.addEventListener("visibilitychange", () =>
+        clearInterval(crInterval.current)
+      );
+    }
     return () => {
       clearInterval(crInterval.current);
       window.removeEventListener("transitionend", handleSliderTranslateEnd);
@@ -45,7 +50,7 @@ function Carousel({
       );
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [current]);
+  }, [current, auto]);
 
   const handleSliderTranslateEnd = () => {
     switch (direction) {
@@ -73,16 +78,18 @@ function Carousel({
   };
 
   const vaildPrevSlider = () => {
-    const { current, nums } = state;
     let _current = current;
-    _current += 1;
-    const _nums = [...nums.slice(-1), ...nums].slice(0, slides.length);
-    setState({
-      ...state,
-      needTransition: false,
-      current: _current,
-      nums: _nums,
-    });
+    if (_current < 1) {
+      _current += 1;
+      const _nums = [...nums.slice(-1), ...nums].slice(0, nums.length);
+      console.log(nums);
+      setState({
+        ...state,
+        needTransition: false,
+        current: _current,
+        nums: _nums,
+      });
+    }
   };
 
   const handleNext = () => {
@@ -104,7 +111,6 @@ function Carousel({
   const handlePrev = () => {
     if (nums.length > 1) {
       let _current = current - 1;
-      if (_current < 0) return;
       setState({
         ...state,
         needTransition: true,
@@ -119,14 +125,17 @@ function Carousel({
   };
 
   return (
-    <div className="carousel">
+    <div
+      className="carousel"
+      onMouseEnter={() => setAuto(false)}
+      onMouseLeave={() => setAuto(true)}>
       <div
         className="carousel-container"
-        width={`${width * slides.length - 1}%`}
+        width={`${width * (slides.length - 1)}%`}
         style={{
           height,
           transform: `translateX(${transLateVal()}%)`,
-          transition: needTransition && "transform 0.2s linear",
+          transition: needTransition ? "transform 0.2s linear" : null,
         }}
         onTransitionEnd={handleSliderTranslateEnd}>
         {nums.map((item, i) => (
