@@ -19,7 +19,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/products", productsRoute);
-app.use("/", (_, res) => {
+app.use("/", (req, res) => {
   res.json({ message: "It works" });
 });
 
@@ -30,7 +30,7 @@ mongoose
   })
   .then(() =>
     app.listen(process.env.PORT, () => {
-      console.log("listening to port 4000");
+      console.log("listening to port " + process.env.PORT);
     })
   )
   .catch((error) => console.log(error));
