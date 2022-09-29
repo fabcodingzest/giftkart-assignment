@@ -18,10 +18,10 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/", (req, res) => {
+app.use("/products", productsRoute);
+app.use("/", (_, res) => {
   res.json({ message: "It works" });
 });
-app.use("/products", productsRoute);
 
 mongoose
   .connect(process.env.MONGO_URI, {
