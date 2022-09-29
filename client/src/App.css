@@ -17,6 +17,12 @@
   position: relative;
 }
 
+button:focus-visible,
+input:focus-visible,
+a:focus-visible {
+  outline: 2px solid #ad1fea;
+}
+
 #search-input {
   position: relative;
   z-index: 33;
