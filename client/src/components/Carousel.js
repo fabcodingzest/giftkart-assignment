@@ -1,6 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import Arrow from "./Arrow";
 
+const DIRECTIOM_TYPE = {
+  next: "NEXT",
+  prev: "PREV",
+};
+
 function Carousel({
   slides,
   width = "",
@@ -8,79 +13,133 @@ function Carousel({
   fullScreen,
   autoPlay,
 }) {
-  const firstSlide = slides[0];
-  const secondSlide = slides[1];
-  const lastSlide = slides[slides.length - 1];
-  const [data, setData] = useState([firstSlide, secondSlide, lastSlide]);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [state, setState] = useState({
+    nums: slides,
+    current: 0,
+    needTransition: true,
+    direction: "",
+  });
   let crInterval = useRef(null);
-
-  const carouselHorizontalScroll = () => {
-    if (currentIndex === slides.length - 1) {
-      return setCurrentIndex(0);
-    } else {
-      return setCurrentIndex(currentIndex + 1);
-    }
-  };
+  const { current, nums } = state;
 
   useEffect(() => {
-    // newData.unshift(newData[slides.length - 1]);
-
-    // setData(newData);
+    clearInterval(crInterval.current);
     crInterval.current =
       autoPlay &&
       setInterval(() => {
-        carouselHorizontalScroll();
-      }, 3000);
+        handleNext();
+      }, autoPlay * 1000);
 
     return () => {
       clearInterval(crInterval.current);
+      window.removeEventListener("transitionend", handleSliderTranslateEnd);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentIndex]);
+  }, [state.current]);
 
-  const prevSlide = () => {
-    clearInterval(crInterval.current);
-    if (currentIndex === 0) {
-      return setCurrentIndex(slides.length - 1);
+  const handleSliderTranslateEnd = () => {
+    console.log("handleSliderTranslateEnd");
+    const { direction } = state;
+    switch (direction) {
+      case DIRECTIOM_TYPE.next:
+        vaildNextSlider();
+        break;
+      case DIRECTIOM_TYPE.prev:
+        vaildPrevSlider();
+        break;
+      default:
+        break;
     }
-    setCurrentIndex(currentIndex - 1);
   };
-  const nextSlide = () => {
-    clearInterval(crInterval.current);
-    if (currentIndex === slides.length - 1) {
-      return setCurrentIndex(0);
+
+  const vaildNextSlider = () => {
+    let _current = current;
+    _current -= 1;
+    const _nums = [...nums, ...nums.slice(0, 1)].slice(-slides.length);
+    setState({
+      ...state,
+      needTransition: false,
+      current: _current,
+      nums: _nums,
+    });
+  };
+
+  const vaildPrevSlider = () => {
+    const { current, nums } = state;
+    let _current = current;
+    _current += 1;
+    const _nums = [...nums.slice(-1), ...nums].slice(0, slides.length);
+    setState({
+      ...state,
+      needTransition: false,
+      current: _current,
+      nums: _nums,
+    });
+  };
+
+  const handleNext = () => {
+    const { current, nums } = state;
+    if (nums.length > 1) {
+      let _current = current + 1;
+      if (nums.length % 2 !== 0) {
+        const middle = nums.length / 2 - 1;
+        if (_current > nums.length - middle) return;
+      }
+      setState({
+        ...state,
+        needTransition: true,
+        current: _current,
+        direction: DIRECTIOM_TYPE.next,
+      });
     }
-    setCurrentIndex(currentIndex + 1);
+  };
+
+  const handlePrev = () => {
+    if (nums.length > 1) {
+      let _current = current - 1;
+      if (_current < 0) return;
+      setState({
+        ...state,
+        needTransition: true,
+        current: _current,
+        direction: DIRECTIOM_TYPE.prev,
+      });
+    }
+  };
+
+  const transLateVal = () => {
+    return -(state.current * 100);
   };
 
   return (
-    <div className="carousel" width={width * slides.length - 1}>
-      {slides.map((item, i) => (
-        <div
-          key={i}
-          className="carousel-img"
-          style={{
-            transition: `${
-              currentIndex === slides.length
-                ? 0
-                : "all 1s cubic-bezier(0.39, 0.39, 0.39, 1)"
-            }`,
-            transform: `translateX(-${currentIndex * 100}%)`,
-            height,
-            width,
-          }}>
-          <img
-            style={
-              fullScreen ? { objectFit: "cover" } : { objectFit: "contain" }
-            }
-            src={item}
-            alt="display"
-          />
-        </div>
-      ))}
-      <Arrow direction="left" handleClick={prevSlide} />
-      <Arrow direction="right" handleClick={nextSlide} />
+    <div className="carousel">
+      <div
+        className="carousel-container"
+        width={`${width * state.nums.length - 1}%`}
+        style={{
+          height,
+          transform: `translateX(${transLateVal()}%)`,
+          transition: state.needTransition && "transform 0.3s ease-in-out",
+        }}
+        onTransitionEnd={handleSliderTranslateEnd}>
+        {state.nums.map((item, i) => (
+          <div key={i} className="carousel-img">
+            <img
+              style={
+                fullScreen ? { objectFit: "cover" } : { objectFit: "contain" }
+              }
+              src={item}
+              alt="display"
+            />
+          </div>
+        ))}
+      </div>
+      {state.nums.length > 1 && (
+        <>
+          <Arrow direction="left" handleClick={handlePrev} />
+          <Arrow direction="right" handleClick={handleNext} />
+        </>
+      )}
     </div>
   );
 }

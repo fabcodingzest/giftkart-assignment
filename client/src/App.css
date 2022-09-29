@@ -105,14 +105,19 @@
   position: relative;
 }
 
-.carousel > div {
+.carousel-container {
+  display: flex;
+  width: 100%;
+  transform: translateX(0);
+}
+
+.carousel-img {
   min-width: 100%;
-  /* width: 100%; */
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #fff;
-  /* transition: all 1s cubic-bezier(0.39, 0.39, 0.39, 1); */
 }
 
 .carousel-img img {
