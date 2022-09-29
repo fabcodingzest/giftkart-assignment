@@ -54,6 +54,12 @@ function Searchbar() {
           id="search-input"
           type="text"
           onChange={debouncedSearch}
+          onFocus={(e) => {
+            if (e.target.value !== "") {
+              setDropDownOpen(true);
+              debouncedSearch(e);
+            }
+          }}
           autoComplete="off"
         />
         <button id="search-btn" onClick={() => console.log("hello btn")}>
