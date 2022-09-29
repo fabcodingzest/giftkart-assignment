@@ -23,8 +23,8 @@ function Carousel({
   const { direction, current, nums, needTransition } = state;
 
   useEffect(() => {
-    clearInterval(crInterval.current);
     const playInterval = () => {
+      clearInterval(crInterval.current);
       crInterval.current =
         autoPlay &&
         setInterval(() => {
@@ -33,12 +33,14 @@ function Carousel({
     };
     playInterval();
     window.addEventListener("focus", playInterval);
-    window.addEventListener("blur", () => clearInterval(crInterval.current));
+    window.addEventListener("visibilitychange", () =>
+      clearInterval(crInterval.current)
+    );
     return () => {
       clearInterval(crInterval.current);
       window.removeEventListener("transitionend", handleSliderTranslateEnd);
       window.removeEventListener("focus", playInterval);
-      window.removeEventListener("blur", () =>
+      window.removeEventListener("visibilitychange", () =>
         clearInterval(crInterval.current)
       );
     };
@@ -85,9 +87,7 @@ function Carousel({
 
   const handleNext = () => {
     if (nums.length > 1) {
-      console.log(current);
       let _current = current + 1;
-      console.log(_current);
       if (nums.length % 2 !== 0) {
         const middle = nums.length / 2 - 1;
         if (_current > nums.length - middle) return;
@@ -115,7 +115,6 @@ function Carousel({
   };
 
   const transLateVal = () => {
-    console.log(current);
     return -(current * 100);
   };
 
